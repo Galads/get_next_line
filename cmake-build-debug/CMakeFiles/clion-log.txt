@@ -1,0 +1,9 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/brice/Desktop/GNL/gnl
+CMake Error at CMakeLists.txt:7 (file):
+  file failed to open for reading (No such file or directory):
+
+    /Users/brice/Desktop/GNL/gnl/cmake-build-debug/file1.txt
+
+
+-- Configuring incomplete, errors occurred!
+See also "/Users/brice/Desktop/GNL/gnl/cmake-build-debug/CMakeFiles/CMakeOutput.log".
