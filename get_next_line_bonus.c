@@ -14,93 +14,91 @@
 
 int get_next_line(int fd, char **line)
 {
-    static char *save;
+    static char *save[3024];
     char        *buf;
     char        *clear;
     char        *p;
     int			rd;
     int         flag;
 
-	flag = 0;
-	if (fd < 0 || BUFFER_SIZE < 1 || !line)
+    flag = 1;
+    if (fd < 0 || BUFFER_SIZE < 1 || !line)
         return (-1);
-	if (!(*line = ft_strdup("")))
-		return (-1);
-	if (save)
-	{
-	    if ((p = ft_strchr(save, '\n')))
-	    {
-	        *p = '\0';
-	        clear = *line;
-	        if (!(*line = ft_strjoin(*line, save)))
+    if (!(*line = ft_strdup("")))
+        return (-1);
+    if (save[fd])
+    {
+        if ((p = ft_strchr(save[fd], '\n')))
+        {
+            *p = '\0';
+            clear = *line;
+            if (!(*line = ft_strjoin(*line, save[fd])))
             {
-	            free(clear);
+                free(clear);
                 return (-1);
             }
-
-	        free(clear);
-
-	        clear = save;
-	        save = ft_strdup(p + 1);
             free(clear);
+            clear = save;
 
-            flag = 0;
+            save[fd] = ft_strdup(p + 1);
+
+            free(clear);
             return (1);
         }
-	    else
+        else
         {
-	        clear = *line;
-	        *line = ft_strjoin(*line, save);
-	        free(clear);
+            clear = *line;
+            *line = ft_strjoin(*line, save[fd]);
+            free(clear);
 
-	        //save = ft_strdup("");
+            clear = save[fd];
+            //save = ft_strdup("");
+            free(clear);
 
-	        free(save);
-	        save = NULL;
-	        flag = 1;
+            //free(save);
+
+            //free(save);
+            save = NULL;
         }
-	}
-	else
-    {
-        //save = ft_strdup("");
-        flag = 1;
     }
-	if (!(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-	{
-	    free(save);
-	    free(buf);
-	    return (-1);
-	}
-	while (flag && (rd = read(fd, buf, BUFFER_SIZE)) > 0 )
-	{
-	    buf[rd] = '\0';
-
-	    if ((p = ft_strchr(buf, '\n')))
-	    {
-	        *p = '\0';
-	        save = ft_strdup(p + 1);
-            flag = 0;
-        }
+    else
+        save = ft_strdup("");
+    if (!(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+    {
+        free(save);
+        return (-1);
+    }
+    while ((rd = read(fd, buf, BUFFER_SIZE)) > 0 && flag)
+    {
+        buf[rd] = '\0';
         clear = *line;
         if (!(*line = ft_strjoin(*line, buf)))
         {
-            //free(*line);
+            free(clear);
             //free(line);
-            free(clear);//add
+            //*line = ft_strdup("");
             return (-1);
         }
         free(clear);
+        if ((p = ft_strchr(*line, '\n')))
+        {
+            *p = '\0';
+
+            clear = save;
+            save = ft_strdup(p + 1);
+            free(clear);
+            //break;
+            return (1);
+        }
     }
-	if (save)
-        return (1);
-	if (rd < 0)
+    if (rd < 0)
     {
-	    free(save);
-	    free(buf);
+        free(save);
+        free(buf);
         return (-1);
     }
-	//clear = save;
-	free(save);
-	free(buf);
+    //clear = save;
+    free(save);
+    free(buf);
     return (0);
 }
