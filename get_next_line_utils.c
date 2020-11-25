@@ -6,13 +6,13 @@
 /*   By: brice <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 22:37:30 by brice             #+#    #+#             */
-/*   Updated: 2020/11/24 03:59:56 by brice            ###   ########.fr       */
+/*   Updated: 2020/11/25 12:34:08 by brice            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+static	size_t	ft_strlen(const char *str)
 {
 	int i;
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char			*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;
 	int		j;
@@ -49,7 +49,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char	*ft_strchr(const char *s, int c)
+char			*ft_strchr(const char *s, int c)
 {
 	if (c == '\0')
 	{
@@ -66,7 +66,7 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_strdup(const char *s1)
+char			*ft_strdup(const char *s1)
 {
 	int		i;
 	int		j;
